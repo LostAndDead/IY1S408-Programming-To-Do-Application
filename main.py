@@ -1,5 +1,6 @@
 from json import load
 from msilib.schema import ComboBox
+from xmlrpc.client import Boolean
 from colorama import Fore, Back, Style
 from enum import Enum
 from pynput import keyboard
@@ -15,9 +16,10 @@ class Controls(Enum):
     ENTER = 3
     BACK = 4
 
-global menuOptions, selectedOption, pressedKey, listener, todoItems
+global menuOptions, selectedOption, pressedKey, listener, todoItems, colourOptions
 
 menuOptions = ["1. View To-Do Tasks", "2. Options", "3. Credits", "4. Close"]
+colourOptions = ["red", "green"]
 selectedOption = 0
 pressedKey = Controls.Nothing
 listener = keyboard.Listener()
@@ -55,9 +57,11 @@ def handleInput(key):
         pressedKey = Controls.ENTER
     elif key == keyboard.Key.ctrl_l:
         pressedKey = Controls.Exit
-    elif key.char:
+    elif hasattr(key, "char"):
         if key.char == 'b':
             pressedKey = Controls.BACK
+    else:
+        return Controls.Nothing
         
 # Here we listen for 1 key press and report it back
 # We do this by having a Nothing key by default and using the input handler
@@ -121,16 +125,35 @@ def printToDo():
     clear()
     f = Figlet(font='cybermedium')
     print (f.renderText('To-Do'))
+
+    print("  Text                          Completed    Status")
+    print("-----------------------------------------------------")
     for i in range(len(todoItems)):
+        value = todoItems[i]["value"]
+        completed = "✗"
+        if todoItems[i]["completed"]:
+            completed = "✓"
+        if len(value) > 30:
+            value = value[0:27] + "..."
+        elif len(value) < 30:
+            while len(value) < 30:
+                value = value + " "
         if(i == selectedOption):
-            print("> " + todoItems[i]["value"] + Style.RESET_ALL)
+            print("> " + value + Style.RESET_ALL + "   [{0}]         [{1}■".format(completed, resolveColour(todoItems[i]["colour"])) + Style.RESET_ALL +  "]")
         else:
-            print("  " + todoItems[i]["value"] + Style.RESET_ALL)
+            print("  " + value + Style.RESET_ALL + "   [{0}]         [{1}■".format(completed, resolveColour(todoItems[i]["colour"])) + Style.RESET_ALL + "]")
     print("""\n
 [B] Back      [Enter] Edit
 [↑] Move Up   [↓] Move Down
 [N] New       [C] Change Status
 """)
+    print(todoItems)
+
+def resolveColour(colour):
+    if colour == "red":
+        return Fore.RED
+    elif colour == "green":
+        return Fore.GREEN
 
 def viewToDo():
     global todoItems, selectedOption
