@@ -56,8 +56,7 @@ def show(selectedOption):
         else:
             show(selectedOption)
     elif(value == utils.Controls.ENTER):
-        # Temporary
-        print("Selected {0}".format(todoItems[selectedOption]["value"]))
+        main.switchToTodoItem(todoItems[selectedOption], 0 )
     elif(value == utils.Controls.BACK):
         # Go back to the main menu
         main.switchToMain(0)

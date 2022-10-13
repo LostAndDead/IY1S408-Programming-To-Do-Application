@@ -5,6 +5,7 @@ from pymongo import MongoClient
 import pages.main as mainPage
 import pages.todo as todoPage
 import pages.credits as creditsPage
+import pages.todoItem as todoItem
 
 def loadItemsFromDB():
     todoItems = []
@@ -40,6 +41,9 @@ def switchToToDo(selectedOption):
 
 def switchToCreditsPage():
     creditsPage.show()
+
+def switchToTodoItem(item, selectedOption):
+    todoItem.show(item, selectedOption)
 
 loadItemsFromDB()
 mainPage.show(0)
