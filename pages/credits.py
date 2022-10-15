@@ -1,12 +1,19 @@
 from pyfiglet import Figlet
 from colorama import Fore, Back, Style
 
-def printMenu():
-    import utils
-    utils.clear()
-    f = Figlet(font='cybermedium')
-    print (f.renderText('Credits:'))
-    print("""  Made by Jake, or the online alias LostAndDead
+class CreditsPage:
+
+    def __init__(self, main, utils):
+        self.main = main
+        self.utils = utils
+
+    def printMenu(self, main, utils):
+        self.main = main
+        self.utils = utils
+        self.utils.clear()
+        f = Figlet(font='cybermedium')
+        print (f.renderText('Credits:'))
+        print("""  Made by Jake, or the online alias LostAndDead
   A simple console based To-Do Application for a university
   coursework. No, using Python was not my choice.
 
@@ -15,10 +22,9 @@ def printMenu():
 
 Press [ENTER] To Exit...
 """)
+        self.main.debugPrint("\nDEBUG MODE ACTIVE\n")
 
-def show():
-    import main
-    import utils
-    printMenu()
-    utils.getNextKey()
-    main.switchToMain(0)
+    def show(self):
+        self.printMenu()
+        self.utils.getNextKey()
+        self.main.switchToMain(0)
