@@ -66,15 +66,15 @@ class TodoItemPage:
     [B] Back      {0}[Enter] Edit{1}
     {2}[↑] Move Up{3}   {4}[↓] Move Down{5}
     {6}[←] Move Left{7} {8}[→] Move Right{9}
-    """.format(self.resolveCanEditOrArrow(canEdit), 
+    """.format(self.utils.resolveBoolToDimOrNormal(canEdit), 
         Style.RESET_ALL, 
-        self.resolveCanEditOrArrow(canUp), 
+        self.utils.resolveBoolToDimOrNormal(canUp), 
         Style.RESET_ALL,
-        self.resolveCanEditOrArrow(canDown), 
+        self.utils.resolveBoolToDimOrNormal(canDown), 
         Style.RESET_ALL,
-        self.resolveCanEditOrArrow(canLeft), 
+        self.utils.resolveBoolToDimOrNormal(canLeft), 
         Style.RESET_ALL,
-        self.resolveCanEditOrArrow(canRight), 
+        self.utils.resolveBoolToDimOrNormal(canRight), 
         Style.RESET_ALL
         ) + Style.RESET_ALL)
 
@@ -138,9 +138,3 @@ class TodoItemPage:
             self.item["completed"] = True
         self.main.saveItemToDB(self.item)
         self.show(selectedOption)
-
-    def resolveCanEditOrArrow(self, bool):
-        if bool:
-            return Style.NORMAL
-        else:
-            return Style.DIM

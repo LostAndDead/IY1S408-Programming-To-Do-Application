@@ -29,7 +29,8 @@ class Utils:
     # Here we listen for 1 key press and report it back
     # We do this by having a Nothing key by default and using the input handler
     # to decode any other key presses and break the loop, we also stop listening
-    # when we dont need too
+    # when we dont need too as if we are listening we also suppress key presses across the whole system
+    # its very annoying but to my knowledge the only way it can work with python (without using curses)
     def getNextKey(self):
         global pressedKey, listener
         pressedKey = self.Controls.Nothing
@@ -107,3 +108,9 @@ class Utils:
         else:
             index -= 1
         return self.colourOptions[index]
+    
+    def resolveBoolToDimOrNormal(self, bool):
+        if bool:
+            return Style.NORMAL
+        else:
+            return Style.DIM
