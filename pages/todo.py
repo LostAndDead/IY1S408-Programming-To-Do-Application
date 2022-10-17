@@ -16,9 +16,9 @@ class TodoPage:
         print("-----------------------------------------------------")
         for i in range(len(self.todoItems)):
             value = self.todoItems[i]["value"]
-            completed = Fore.RED + "✗" + Style.RESET_ALL
+            completed = Fore.RED + Style.BRIGHT + "✗" + Style.RESET_ALL
             if self.todoItems[i]["completed"]:
-                completed = Fore.GREEN + "✓" + Style.RESET_ALL
+                completed = Fore.GREEN + Style.BRIGHT + "✓" + Style.RESET_ALL
             if len(value) > 30:
                 value = value[0:27] + "..."
             elif len(value) < 30:

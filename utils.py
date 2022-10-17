@@ -11,18 +11,20 @@ class Utils:
         self.pressedKey = self.Controls.Nothing
 
     class Controls(Enum):
-        Exit = -1
-        Nothing = 0
-        UP = 1
-        DOWN = 2
-        ENTER = 3
-        BACK = 4
-        CYCLE = 5
-        TOGGLE = 6
-        NEW = 7
-        DELETE = 8
-        YES = 9
-        NO = 10
+        Exit = 1
+        Nothing = 2
+        UP = 3
+        DOWN = 4
+        LEFT = 5
+        RIGHT = 6
+        ENTER = 7
+        BACK = 8
+        CYCLE = 9
+        TOGGLE = 10
+        NEW = 11
+        DELETE = 12
+        YES = 13
+        NO = 14
 
     # Here we listen for 1 key press and report it back
     # We do this by having a Nothing key by default and using the input handler
@@ -53,6 +55,10 @@ class Utils:
             pressedKey = self.Controls.DOWN
         elif key == keyboard.Key.enter:
             pressedKey = self.Controls.ENTER
+        elif key == keyboard.Key.left:
+            pressedKey = self.Controls.LEFT
+        elif key == keyboard.Key.right:
+            pressedKey = self.Controls.RIGHT
         elif key == keyboard.Key.ctrl_l:
             pressedKey = self.Controls.Exit
         elif hasattr(key, "char"):
@@ -80,11 +86,11 @@ class Utils:
 
     def resolveColour(self, colour):
         if colour == "red":
-            return Fore.RED
+            return Fore.RED + Style.BRIGHT
         elif colour == "yellow":
-            return Fore.YELLOW
+            return Fore.YELLOW + Style.BRIGHT
         elif colour == "green":
-            return Fore.GREEN
+            return Fore.GREEN + Style.BRIGHT
 
     def findNextColour(self, colour):
         index = self.colourOptions.index(colour)
@@ -92,4 +98,12 @@ class Utils:
             index = 0
         else:
             index += 1
+        return self.colourOptions[index]
+
+    def findPreviousColour(self, colour):
+        index = self.colourOptions.index(colour)
+        if(index == 0):
+            index = len(self.colourOptions) -1
+        else:
+            index -= 1
         return self.colourOptions[index]
