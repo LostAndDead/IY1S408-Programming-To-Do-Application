@@ -35,14 +35,19 @@ class Main:
             todoItems.append(item)
         return todoItems
 
-    # Saves 1 single "item" to the database by its ID, automatically updating or
-    # inserting using the "uspert" keyword
+    # Saves 1 single "item" to the database by its ID, automatically updating existing objects
     def saveItemToDB(self, item):
         dbname = self.connectToDB()
         collection = dbname["items"]
         query = {"_id": item["_id"]}
         values = {"$set" : item}
-        collection.update_one(query, values, upsert=True)
+        collection.update_one(query, values)
+
+    # Same as above, just for new items
+    def saveNewItemToDB(self, item):
+        dbname = self.connectToDB()
+        collection = dbname["items"]
+        collection.insert_one(item)
 
     # Poof, and the item is gone!
     def removeItemFromDB(self, item):

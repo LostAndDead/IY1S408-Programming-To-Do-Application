@@ -4,7 +4,7 @@ from colorama import Fore, Back, Style
 class MainPage:
 
     def __init__(self, main, utils,):
-        self.menuOptions = ["1. View To-Do Tasks", "2. Options", "3. Credits", "4. Close"]
+        self.menuOptions = ["1. View To-Do Tasks", "2. Credits", "3. Close"]
         self.main = main
         self.utils = utils
 
@@ -47,9 +47,9 @@ class MainPage:
             if(selectedOption == 0):
                 selectedOption = 0
                 self.main.switchToToDo(0)
-            elif(selectedOption == 2):
+            elif(selectedOption == 1):
                 self.main.switchToCreditsPage()
-            elif(selectedOption == 3):
+            elif(selectedOption == 2):
                 self.utils.clear()
                 print("Have a good day o/")
                 exit()

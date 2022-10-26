@@ -10,6 +10,7 @@ class Utils:
         self.colourOptions = ["red", "yellow", "green"]
         self.pressedKey = self.Controls.Nothing
 
+    # List of all possible controlls supported through the program
     class Controls(Enum):
         Exit = 1
         Nothing = 2
@@ -85,6 +86,7 @@ class Utils:
         os.system('cls' if os.name == 'nt' else 'clear')
 
 
+    # Resolves the text colour names to the style codes for priting 
     def resolveColour(self, colour):
         if colour == "red":
             return Fore.RED + Style.BRIGHT
@@ -93,6 +95,7 @@ class Utils:
         elif colour == "green":
             return Fore.GREEN + Style.BRIGHT
 
+    # Given a colour string find the next one that should show in the list, includes wrapping arround
     def findNextColour(self, colour):
         index = self.colourOptions.index(colour)
         if(index == len(self.colourOptions) - 1):
@@ -101,6 +104,7 @@ class Utils:
             index += 1
         return self.colourOptions[index]
 
+    # Given a colour string find the previous one that should show in a list, includes wrapping arround
     def findPreviousColour(self, colour):
         index = self.colourOptions.index(colour)
         if(index == 0):
@@ -109,6 +113,7 @@ class Utils:
             index -= 1
         return self.colourOptions[index]
     
+    # Simple method used to resolve more styles based on a boolean
     def resolveBoolToDimOrNormal(self, bool):
         if bool:
             return Style.NORMAL

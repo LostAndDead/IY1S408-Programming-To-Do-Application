@@ -102,6 +102,18 @@ class TodoPage:
             self.toggleComplete(selectedOption)
         elif(value == self.utils.Controls.DELETE):
             self.deleteItem(selectedOption)
+        elif(value == self.utils.Controls.NEW):
+            emptyItem = {
+                "value":"",
+                "colour":"red",
+                "completed": False,
+                "description": []
+            }
+            title = self.getNewTitle(emptyItem)
+            if(title == None):
+                self.show(selectedOption)
+            else:
+                self.main.switchToTodoItem(emptyItem, 0)
         else:
             self.show(selectedOption)
 
@@ -133,7 +145,9 @@ class TodoPage:
     # Delete function, makes sure the user is certain for it confirms the delete
     def deleteItem(self, selectedOption):
         self.utils.clear()
-        print("Are you sure? [Y/N]")
+        f = Figlet(font='cybermedium')
+        print (f.renderText('Are You Sure?'))
+        print (f.renderText('Y/N'))
         value = self.utils.getNextKey()
         if(value == self.utils.Controls.YES):
             self.confirmDeleteItem(selectedOption)
@@ -147,3 +161,20 @@ class TodoPage:
         self.todoItems.pop(selectedOption)
         self.main.removeItemFromDB(item)
         self.show(selectedOption)
+
+    def getNewTitle(self, item):
+        self.utils.clear()
+
+        f = Figlet(font='cybermedium')
+        print (f.renderText('New Title:'))
+
+        print("Leave blank to cancel the creation")
+        answer = input("\nEnter New Value: \n  ")
+
+        if(answer != ""):
+            print("\nUpdating...")
+            item["value"] = answer
+            self.main.saveNewItemToDB(item)
+            return answer
+        else:
+            return None
