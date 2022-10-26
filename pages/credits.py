@@ -25,6 +25,6 @@ Press [ENTER] To Exit...
         self.main.debugPrint("\nDEBUG MODE ACTIVE\n")
 
     def show(self):
-        self.printMenu()
+        self.printMenu(self.main, self.utils)
         self.utils.getNextKey()
         self.main.switchToMain(0)

@@ -1,5 +1,6 @@
 from pyfiglet import Figlet
 from colorama import Fore, Back, Style
+import readline
 
 class TodoItemPage:
 
@@ -21,14 +22,14 @@ class TodoItemPage:
         if(selectedOption == 0):
             canEdit = True
             canUp = False
-            print("> Text: \n  {0}".format(self.item["value"]))
+            print("> Text: \n    {0}".format(self.item["value"]))
         else:
-            print("  Text: \n  {0}".format(self.item["value"]))
+            print("  Text: \n    {0}".format(self.item["value"]))
         if(selectedOption == 1):
             canEdit = True
-            print("> Description: \n  {0}".format('\n  '.join(self.item["description"])))
+            print("> Description: \n    {0}".format('\n    '.join(self.item["description"])))
         else:
-            print("  Description: \n  {0}".format('\n  '.join(self.item["description"])))
+            print("  Description: \n    {0}".format('\n    '.join(self.item["description"])))
         if(selectedOption == 2):
             canLeft = True
             canRight = True
@@ -118,6 +119,8 @@ class TodoItemPage:
             self.toggleComplete(selectedOption)
         elif(value == self.utils.Controls.RIGHT and selectedOption == 3 and self.item["completed"] == False):
             self.toggleComplete(selectedOption)
+        elif(value == self.utils.Controls.ENTER and selectedOption == 0):
+            self.editTitle(selectedOption)
         else:
             self.show(selectedOption)
     
@@ -138,3 +141,21 @@ class TodoItemPage:
             self.item["completed"] = True
         self.main.saveItemToDB(self.item)
         self.show(selectedOption)
+
+    def editTitle(self, selectedOption):
+        self.utils.clear()
+        defaultValue = self.item["value"]
+        print("Current Title: " + defaultValue)
+        answer = self.rlinput("Enter New Title: ", defaultValue)
+        print("Updating...")
+        self.item["value"] = answer
+        self.main.saveItemToDB(self.item)
+        self.show(selectedOption)
+        
+
+    def rlinput(self, prompt, prefill):
+        readline.set_startup_hook(lambda: readline.insert_text(prefill))
+        try:
+            return input(prompt)
+        finally:
+            readline.set_startup_hook()
