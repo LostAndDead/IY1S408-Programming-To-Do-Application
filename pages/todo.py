@@ -52,6 +52,10 @@ class TodoPage:
             canDown = False
         if selectedOption == 0:
             canUp = False
+        if len(self.todoItems) == 0:
+            canUp = False
+            canDown = False
+            print("  No Items")
 
         # Prints the controlls, also dims out controls which arent useable right now
         print("""\n
@@ -59,6 +63,7 @@ class TodoPage:
     {0}[↑] Move Up{1}   {2}[↓] Move Down{3}
     [N] New       [C] Change Status
     [D] Delete    [T] Complete/Uncomplete
+    [F] Edit Filter
     """.format(self.utils.resolveBoolToDimOrNormal(canUp),
         Style.RESET_ALL,
         self.utils.resolveBoolToDimOrNormal(canDown),
@@ -114,10 +119,12 @@ class TodoPage:
                 self.show(selectedOption)
             else:
                 self.main.switchToTodoItem(emptyItem, 0)
+        elif(value == self.utils.Controls.FILTER):
+            self.main.switchToFilter()
         else:
             self.show(selectedOption)
 
-    # UNUSED, sets the todo items if they need updating for any reason
+    # Sets the todo items when they need updating from the filter
     def setTodoItems(self, items):
         self.todoItems = items
 

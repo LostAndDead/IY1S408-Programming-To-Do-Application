@@ -7,7 +7,7 @@ class Utils:
 
     def __init__(self, main):
         self.main = main
-        self.colourOptions = ["red", "yellow", "green"]
+        self.colourOptions = ["red", "yellow", "green", "blue"]
         self.pressedKey = self.Controls.Nothing
 
     # List of all possible controlls supported through the program
@@ -26,6 +26,7 @@ class Utils:
         DELETE = 12
         YES = 13
         NO = 14
+        FILTER = 15
 
     # Here we listen for 1 key press and report it back
     # We do this by having a Nothing key by default and using the input handler
@@ -78,6 +79,8 @@ class Utils:
                 pressedKey = self.Controls.YES
             elif key.char == 'n':
                 pressedKey = self.Controls.NO
+            elif key.char == 'f':
+                pressedKey = self.Controls.FILTER
         else:
             pressedKey = self.Controls.Nothing
 
@@ -94,6 +97,8 @@ class Utils:
             return Fore.YELLOW + Style.BRIGHT
         elif colour == "green":
             return Fore.GREEN + Style.BRIGHT
+        elif colour == "blue":
+            return Fore.BLUE + Style.BRIGHT
 
     # Given a colour string find the next one that should show in the list, includes wrapping arround
     def findNextColour(self, colour):

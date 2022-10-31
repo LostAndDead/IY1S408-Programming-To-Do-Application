@@ -6,6 +6,7 @@ from pages.main import MainPage
 from pages.todo import TodoPage
 from pages.credits import CreditsPage
 from pages.todoItem import TodoItemPage
+from pages.filter import FilterPage
 
 from utils import Utils
 
@@ -18,12 +19,14 @@ class Main:
         # Set our values for future use in the self
         self.DEBUG = debug
         self.MONGO_STRING = mongoString
+        self.ITEMS = self.loadItemsFromDB()
 
         # Load all our subpages with the data they need
         self.UTILS = Utils(self)
         self.MAIN = MainPage(self, self.UTILS)
-        self.TODO = TodoPage(self, self.UTILS, self.loadItemsFromDB())
+        self.TODO = TodoPage(self, self.UTILS, self.ITEMS)
         self.CREDITS = CreditsPage(self, self.UTILS)
+        self.FILTER = FilterPage(self, self.UTILS)
     
     # Loads the items from the mongoDB "items" collection
     def loadItemsFromDB(self):
@@ -67,10 +70,29 @@ class Main:
         self.MAIN.show(selectedOption)
 
     def switchToToDo(self, selectedOption):
+        filteredItems = []
+        colourFilter = self.FILTER.getColourFilter()
+        completedFilter = self.FILTER.getCompleteFilter()
+        for i in range(len(self.ITEMS)):
+            if(colourFilter != None and completedFilter == None):
+                if(self.ITEMS[i]["colour"] == colourFilter):
+                    filteredItems.append(self.ITEMS[i])
+            elif(completedFilter != None and colourFilter == None):
+                if(self.ITEMS[i]["completed"] == completedFilter):
+                    filteredItems.append(self.ITEMS[i])
+            elif(completedFilter != None and colourFilter != None):
+                if(self.ITEMS[i]["completed"] == completedFilter and self.ITEMS[i]["colour"] == colourFilter):
+                    filteredItems.append(self.ITEMS[i])
+            else:
+                filteredItems.append(self.ITEMS[i])
+        self.TODO.setTodoItems(filteredItems)
         self.TODO.show(selectedOption)
 
     def switchToCreditsPage(self):
         self.CREDITS.show()
+
+    def switchToFilter(self):
+        self.FILTER.show()
 
     def switchToTodoItem(self, item, selectedOption):
         self.TODO_ITEM = TodoItemPage(self, self.UTILS, item)
