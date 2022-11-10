@@ -1,6 +1,9 @@
 from colorama import Fore, Back, Style
 import sys
 from pymongo import MongoClient
+from decouple import config
+
+URL = config('URL')
 
 from pages.main import MainPage
 from pages.todo import TodoPage
@@ -114,5 +117,5 @@ for i in range(1, len(sys.argv)):
 # Loads and connects, "url" will need to be replace by a mongoDB connection string
 # If you are marking as part of my assignment then a URL connection string should have been provided which you can use,
 # It will be an existing DB with some existing testing data.
-main = Main("mongodb+srv://todo:O0B9bDRod8A87nJl@uni-db.ptlajcy.mongodb.net/test", debug)
+main = Main(URL, debug)
 main.switchToMain(0)
